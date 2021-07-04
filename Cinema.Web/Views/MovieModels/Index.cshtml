@@ -1,0 +1,98 @@
+﻿@model List<Cinema.Web.Models.MovieModel>
+
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ var data = ViewBag.Movies;
+                var listItems = ViewBag.ListItems;
+                var roleId = Session["role_id"];
+                var genreId = 0; }
+
+<div class="text-center" style="display: flex; align-items: center; justify-content: center; padding:30px 0 30px 0">
+    <img src="~/Media/bg.jpg" style="width: 150px;margin-right: 20px;" />
+    <label style="font-size: 55px; font-weight: 400;">Movie Store</label>
+
+</div>
+@if (Convert.ToInt32(roleId) == 2)
+{
+<div class="text-center" style="border:2px solid black; border-radius:5px; padding:30px;">
+
+    <label style="font-size:35px;">Admin Panel</label>
+
+
+    <div style="display:flex;justify-content:center;margin-bottom:20px;">
+        <span style="margin-right:20px;">
+            @Html.ActionLink("Add New Movie", "Create", "MovieModels"
+           , new { @class = "btn btn-success btn-lg" })
+        </span>
+
+
+        @*<span>
+                  @Html.ActionLink("Import Users From Excel", "Create", "MovieModels"
+            , new { @class = "btn btn-success btn-lg" })
+              </span>*@
+
+
+    </div>
+    <!--<div style="display:flex;justify-content:center;margin-bottom:20px;">-->
+    @*<div>
+                    @Html.DropDownListFor(genreId,
+            new SelectList(listItems, "Value", "Text"),
+            "-- Select Genre --", new { @id = @genreId }
+        )
+
+                </div>*@
+
+    <!--<span style="margin-right:20px;">
+            @Html.ActionLink("Generate Report For All Tickets", "Export All", "MovieModels"
+      , new { @class = "btn btn-success btn-lg" })
+        </span>
+
+    </div>-->
+</div>}
+<div class="text-center" style="margin-top:30px;">
+
+    @*<div class="m-3" style="left:0; position:relative;">
+            @Html.ActionLink("Add new Movie", "Create", "MovieModels", null, new { @class = "btn btn-success" })
+
+        </div>*@
+
+    <div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+
+            if (i % 4 == 0)
+            {
+@:<div class="row" style="display: flex; justify-content: center;margin-bottom:60px;">
+}
+<div class="col-md-3 m-4 text-center" style="display:flex; justify-content:center; ">
+    <div class="card" style="width: 18rem;height:35rem;">
+        <img class="card-img-top" src="@item.Image" alt="Poster" style="height:70%" />
+
+        <div class="card-body">
+
+            <h5 class="card-title">@item.Name</h5>
+            <h6>@data[i].genre.Name</h6>
+
+            <p class="card-text">@item.Price $</p>
+        </div>
+
+        <div class="card-footer">
+            @Html.ActionLink("Buy Ticket", "AddTicketToShoppingCart", "MovieModels", new { @id = @item.Id }, new { @class = "btn btn-success" })
+            @if (Convert.ToInt32(roleId) == 2)
+            {
+@Html.ActionLink("Edit", "Edit", "MovieModels", new { @id = @item.Id }, new { @class = "btn btn-secondary" })}
+
+        </div>
+    </div>
+</div> if (i % 4 == 3)
+                {
+@:</div>
+
+
+
+
+                }
+            }
+    </div>
+</div>
